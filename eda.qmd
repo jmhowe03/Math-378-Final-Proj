@@ -1,0 +1,57 @@
+---
+title: "Penguins EDA"
+format:
+  html:
+    code-fold: true
+    R-language
+---
+
+## Penguin Size and Mass by Sex and Species
+
+```{r}
+library(palmerpenguins)
+library(dplyr)
+library(ggplot2)
+library(DBI) #L2
+library(duckdb) #L2
+```
+
+```{r}
+df <- palmerpenguins::penguins
+```
+
+```{r}
+df %>%
+  group_by(species, sex) %>%
+  summarise(
+    across(
+      where(is.numeric), 
+      \(x) mean(x, na.rm = TRUE)
+      )
+    ) %>%
+  knitr::kable()
+```
+
+## Penguin Size vs Mass by Species
+
+```{r}
+df %>%
+  ggplot(aes(x = bill_length_mm, y = body_mass_g, color = species)) +
+  geom_point() + 
+  geom_smooth(method = "lm")
+```
+
+```{r}
+con <- DBI::dbConnect(duckdb::duckdb(), dbdir = "my-db.duckdb")
+DBI::dbWriteTable(con, "penguins", palmerpenguins::penguins)
+DBI::dbDisconnect(con)
+```
+
+```{r}
+con <- DBI::dbConnect(
+  duckdb::duckdb(), 
+  dbdir = "my-db.duckdb"
+  )
+df <- dplyr::tbl(con, "penguins")
+DBI::dbDisconnect(con)
+```
