@@ -1,0 +1,20 @@
+name: Publish Quarto Project to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - name: Install Quarto
+      run: |
+        wget -qO- "https://quarto.org/install/linux-deb.sh" | sh
+    - name: Build and Publish
+      run: quarto publish _publish.yml
