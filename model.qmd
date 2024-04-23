@@ -3,7 +3,6 @@ title: "Model"
 format:
   html:
     code-fold: true
-    python language
 ---
 
 ```{r}
