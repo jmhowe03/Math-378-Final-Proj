@@ -12,7 +12,7 @@ library(palmerpenguins)
 library(dplyr)
 library(ggplot2)
 library(dbplyr)
-library(duckdb) 
+library(duckdb)
 ```
 
 ```{r}
