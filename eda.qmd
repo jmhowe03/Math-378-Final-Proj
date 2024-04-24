@@ -11,8 +11,8 @@ format:
 library(palmerpenguins)
 library(dplyr)
 library(ggplot2)
-library(dbplyr) #L2
-library(duckdb) #L2
+library(dbplyr)
+library(duckdb) 
 ```
 
 ```{r}
