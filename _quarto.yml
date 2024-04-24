@@ -5,8 +5,10 @@ website:
   title: "Math378_FINAL_PROJ"
   navbar:
     left:
-      - href: index.qmd, eda.qmd, model.qmd
+      - href: index.qmd
         text: Home
+      - eda.qmd
+      - model.qmd
       - about.qmd
 
 format:
