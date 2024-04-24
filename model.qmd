@@ -62,7 +62,7 @@ model_board = board_folder(
   "data/model", 
   allow_pickle_read = True
 )
-vetiver_pin_write(model_board, v)
+#vetiver_pin_write(model_board, v)
 ```
 
 ```{python}

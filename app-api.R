@@ -54,14 +54,14 @@ server <- function(input, output) {
   )
   
   # Fetch prediction from API
-  pred <- eventReactive(
-    input$predict,
-    httr2::request(api_url) |>
-      httr2::req_body_json(vals()) |>
-      httr2::req_perform() |>
-      httr2::resp_body_json(),
-    ignoreInit = TRUE
-  )
+#  pred <- eventReactive(
+ #   input$predict,
+  #  httr2::request(api_url) |>
+   #   httr2::req_body_json(vals()) |>
+    #  httr2::req_perform() |>
+     # httr2::resp_body_json(),
+#    ignoreInit = TRUE
+ # )
   
   # Render to UI
   output$pred <- renderText(pred()$predict[[1]])
