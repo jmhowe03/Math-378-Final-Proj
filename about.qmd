@@ -2,7 +2,13 @@
 title: "About"
 ---
 
+Welcome to Jillian's website!!
+
+If you see this that means I finally got it to work (highly unlikely)
+
 About this site
+
+This site uses, R, Python, Quarto, and Github to make this website!
 
 ```{r}
 1 + 1

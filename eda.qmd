@@ -14,6 +14,10 @@ library(dbplyr)
 library(ggplot2)
 library(DBI)
 library(duckdb)
+library(tidyverse)
+library(tidymodels)
+library(discrim)
+library(ISLR2)
 
 con <- DBI::dbConnect(duckdb::duckdb(), dbdir = "my-db.duckdb")
 df <- dplyr::tbl(con, "penguins")
@@ -43,6 +47,52 @@ df %>%
   ggplot(aes(x = bill_length_mm, y = body_mass_g, color = species)) +
   geom_point() + 
   geom_smooth(method = "lm")
+```
+```{r}
+summary(palmerpenguins::penguins)
+```
+```{r}
+(penguins_split <- initial_split(data = palmerpenguins::penguins, prop = 0.7, strata = species)) 
+penguin_train <- training(penguins_split)
+penguin_test <- testing(penguins_split)
+```
+```{r}
+lda_spec <- discrim_linear() %>%
+        set_mode("classification") %>%
+        set_engine("MASS")
+```
+```{r}
+(lda_fit<- lda_spec %>%
+    fit(species ~ bill_length_mm + bill_depth_mm + flipper_length_mm + body_mass_g       , data = penguin_train))
+```
+```{r}
+augment(lda_fit, new_data = penguin_test) %>%
+  conf_mat(truth = species, estimate = .pred_class)
+```
+```{r}
+augment(lda_fit, new_data = penguin_test) %>%
+  accuracy(truth = species, estimate = .pred_class)
+```
+```{r}
+qda_spec <- discrim_quad() %>%
+        set_mode("classification") %>%
+        set_engine("MASS")
+```
+
+
+```{r}
+(qda_fit<- qda_spec %>%
+   fit(species ~ bill_length_mm + bill_depth_mm + flipper_length_mm + body_mass_g       , data = penguin_train))
+```
+```{r}
+augment(qda_fit, new_data = penguin_test) %>%
+  conf_mat(truth = species, estimate = .pred_class)
+```
+
+
+```{r}
+augment(qda_fit, new_data = penguin_test) %>%
+  accuracy(truth = species, estimate = .pred_class)
 ```
 
 ```{r}
