@@ -10,9 +10,13 @@ format:
 ```{r}
 library(palmerpenguins)
 library(dplyr)
-library(ggplot2)
 library(dbplyr)
+library(ggplot2)
+library(DBI)
 library(duckdb)
+
+con <- DBI::dbConnect(duckdb::duckdb(), dbdir = "my-db.duckdb")
+df <- dplyr::tbl(con, "penguins")
 ```
 
 ```{r}
@@ -24,12 +28,11 @@ df %>%
   group_by(species, sex) %>%
   summarise(
     across(
-      #where(is.numeric), 
-      ends_with("mm") | ends_with("g"),
+        ends_with("mm") | ends_with("g"),
       \(x) mean(x, na.rm = TRUE)
       )
     ) %>%
-  splyr::collect() %>%
+  dplyr::collect() %>%
   knitr::kable()
 ```
 
@@ -49,10 +52,13 @@ df %>%
 ```
 
 ```{r}
-con <- DBI::dbConnect(
-  duckdb::duckdb(), 
-  dbdir = "my-db.duckdb"
-  )
-df <- dplyr::tbl(con, "penguins")
-DBI::dbDisconnect(con)
+#con <- DBI::dbConnect(
+#  duckdb::duckdb(), 
+ # dbdir = "my-db.duckdb"
+#  )
+#df <- dplyr::tbl(con, "penguins")
+#DBI::dbDisconnect(con)
+```
+```{r}
+DBI::dbDisconnect(con, shutdown = TRUE)
 ```

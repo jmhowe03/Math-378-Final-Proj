@@ -7,7 +7,7 @@ format:
 
 ```{r}
 
-#library(reticulate)
+library(reticulate)
 #use_virtualenv("C:\\Users\\C25Jillian.Howe\\Documents\\Math 378\\Stats 378 Final Proh\\.\\venv\\Scripts\\activate")
 
 #py_config()
