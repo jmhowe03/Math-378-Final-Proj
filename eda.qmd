@@ -24,10 +24,12 @@ df %>%
   group_by(species, sex) %>%
   summarise(
     across(
-      where(is.numeric), 
+      #where(is.numeric), 
+      ends_with("mm") | ends_with("g"),
       \(x) mean(x, na.rm = TRUE)
       )
     ) %>%
+  splyr::collect() %>%
   knitr::kable()
 ```
 
